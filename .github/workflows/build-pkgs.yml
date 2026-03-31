@@ -22,7 +22,7 @@ jobs:
 
       - name: BUILD PACKAGES
         run: |
-          echo "XBPS_CHROOT_CMD=proot" >> etc/conf
+          #echo "XBPS_CHROOT_CMD=proot" >> etc/conf
           ./xbps-src binary-bootstrap
           ./xbps-src pkg kalium-base-files
           ./xbps-src pkg kalium-base-system
