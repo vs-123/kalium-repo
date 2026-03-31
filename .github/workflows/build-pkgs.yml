@@ -7,25 +7,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/void-linux/void-linux:20240428R1-full-x86_64-musl
+      options: --privileged
+
     steps:
-      - uses: actions/checkout@v4
+      - name: CHECKOUT REPO
+        uses: actions/checkout@v4
 
-      - name: INSTALL DEPENDENCIES & SETUP XBPS
+      - name: PREPARE ENVIRONMENT
         run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-user-static binfmt-support wget liblz4-tool xz-utils proot
-
-          wget https://repo-default.voidlinux.org/static/xbps-static-latest.aarch64-musl.tar.xz
-          mkdir xbps
-          tar xvf xbps-static-latest.aarch64-musl.tar.xz -C xbps
-          sudo cp xbps/usr/bin/xbps-* /usr/bin/
+          xbps-install -Sy git base-devel
+          git config --global --add safe.directory /__w/kalium-repo/kalium-repo
 
       - name: BUILD PACKAGES
         run: |
-          #echo "XBPS_CHROOT_CMD=proot" >> etc/conf
-          ./xbps-src -N binary-bootstrap
-          ./xbps-src -N pkg kalium-base-files
-          ./xbps-src -N pkg kalium-base-system
+          ./xbps-src binary-bootstrap
+          ./xbps-src pkg kalium-base-files
+          ./xbps-src pkg kalium-base-system
 
       - name: CREATE LOCAL REPO INDEX
         run: |
