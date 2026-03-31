@@ -1,0 +1,28 @@
+name: BUILD CUSTOM PACKAGES
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: BUILD PACKAGES
+        run: |
+          sudo apt-get update && sudo apt-get install -y masterdir-utils
+          ./xbps-src binary-bootstrap
+          ./xbps-src pkg kalium-base-files
+          ./xbps-src pkg kalium-base-system
+
+      - name: CREATE LOCAL REPO INDEX
+        run: |
+          xbps-rindex -a hostdir/binpkgs/*.xbps
+
+      - name: UPLOAD REPO AS ARTIFACT
+        uses: actions/upload-artifact@v4
+        with:
+          name: kalium-binpkgs
+          path: hostdir/binpkgs/
