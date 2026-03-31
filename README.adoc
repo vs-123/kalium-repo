@@ -1,0 +1,3 @@
+= KALIUM-REPO
+
+Packages for Kalium Void. Licensed under AGPLv3.0 or later.
