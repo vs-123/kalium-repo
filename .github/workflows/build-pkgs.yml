@@ -23,9 +23,9 @@ jobs:
       - name: BUILD PACKAGES
         run: |
           #echo "XBPS_CHROOT_CMD=proot" >> etc/conf
-          ./xbps-src binary-bootstrap
-          ./xbps-src pkg kalium-base-files
-          ./xbps-src pkg kalium-base-system
+          ./xbps-src -N binary-bootstrap
+          ./xbps-src -N pkg kalium-base-files
+          ./xbps-src -N pkg kalium-base-system
 
       - name: CREATE LOCAL REPO INDEX
         run: |
