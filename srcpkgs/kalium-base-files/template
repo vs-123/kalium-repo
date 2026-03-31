@@ -1,13 +1,12 @@
-# Template file for 'base-files'
-pkgname=base-files
-version=0.146
+pkgname=kalium-base-files
+version=2026.03310457
 revision=1
 bootstrap=yes
-depends="xbps-triggers"
-short_desc="Void Linux base system files"
-maintainer="Enno Boland <orphan@voidlinux.org>"
+#depends="xbps-triggers"
+short_desc="Kalium Void base system files"
+maintainer="vs-123"
 license="Public Domain"
-homepage="https://www.voidlinux.org"
+homepage="https://github.com/vs-123/kalium-repo"
 conf_files="
 	/etc/inputrc
 	/etc/profile
@@ -31,21 +30,24 @@ replaces="base-directories>=0"
 # New system groups
 system_groups="kvm:24 plugdev:26 usbmon:27 sgx:28"
 
+conflicts="void-base-files"
+provides="void-base-files-999999_1"
+
 do_install() {
 	# Create bin and lib dirs and symlinks.
-	for d in bin lib; do
-		vmkdir "usr/${d}"
-		ln -snrf "${DESTDIR}/usr/${d}" "${DESTDIR}/${d}"
-	done
+	#for d in bin lib; do
+	#	vmkdir "usr/${d}"
+	#	ln -snrf "${DESTDIR}/usr/${d}" "${DESTDIR}/${d}"
+	#done
 	# Symlink sbin paths to /usr/bin.
-	for d in sbin usr/sbin; do
-		ln -snrf "${DESTDIR}/usr/bin" "${DESTDIR}/${d}"
-	done
+	#for d in sbin usr/sbin; do
+	#	ln -snrf "${DESTDIR}/usr/bin" "${DESTDIR}/${d}"
+	#done
 	# Symlink word-specific lib paths to /usr/lib.
-	for d in lib usr/lib; do
-		ln -snrf "${DESTDIR}/usr/lib" \
-			"${DESTDIR}/${d}${XBPS_TARGET_WORDSIZE}"
-	done
+	#for d in lib usr/lib; do
+	#	ln -snrf "${DESTDIR}/usr/lib" \
+	#		"${DESTDIR}/${d}${XBPS_TARGET_WORDSIZE}"
+	#done
 	# Populate 32-bit lib files on 64-bit glibc systems, for multilib.
 	if [ "${XBPS_TARGET_WORDSIZE}" = "64" ] && [ "${XBPS_TARGET_LIBC}" = "glibc" ]; then
 		vmkdir usr/lib32
