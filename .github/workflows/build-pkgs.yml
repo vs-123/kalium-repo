@@ -22,9 +22,10 @@ jobs:
 
       - name: BUILD PACKAGES
         run: |
-          ./xbps-src binary-bootstrap
-          ./xbps-src pkg kalium-base-files
-          ./xbps-src pkg kalium-base-system
+          echo "XBPS_CHROOT_CMD=eth" >> etc/conf
+          sudo ./xbps-src binary-bootstrap
+          sudo ./xbps-src pkg kalium-base-files
+          sudo ./xbps-src pkg kalium-base-system
 
       - name: CREATE LOCAL REPO INDEX
         run: |
